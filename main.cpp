@@ -48,6 +48,7 @@ int main() {
     Node* head = nullptr;
     char again;
 
+    // collect user reviews
     do {
         double rating;
         string comment;
@@ -55,6 +56,7 @@ int main() {
         cout << "Enter review rating 0-5: ";
         cin >> rating;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
         cout << "Enter review comments: ";
         getline(cin, comment);
 
@@ -68,6 +70,16 @@ int main() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     } while (again == 'Y' || again == 'y');
 
-    cout << "\nReviews stored successfully!\n";
+    cout << "\nOutputting all reviews:\n";
+    Node* current = head;
+    int count = 1;
+    while (current != nullptr) {
+        cout << "> Review #" << count << ": " << current->rating
+             << ": " << current->comment << endl;
+        current = current->next;
+        count++;
+    }
+
+    cout << "\nReviews displayed successfully!\n";
     return 0;
 }
