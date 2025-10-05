@@ -1,15 +1,17 @@
+// Final Working Version 
 #include <iostream>
 #include <string>
 #include <limits>
 using namespace std;
 
+// Each node below stores a movie review that consists of rating, comment, and pointer to next
 struct Node {
     double rating;
     string comment;
     Node* next;
 };
 
-// Add node at head
+// Adds a new review at the head of the linked list
 void addToHead(Node*& head, double rating, string comment) {
     Node* temp = new Node;
     temp->rating = rating;
@@ -18,7 +20,7 @@ void addToHead(Node*& head, double rating, string comment) {
     head = temp;
 }
 
-// Add node at tail
+// Adds a new review at the tail of the linked list
 void addToTail(Node*& head, double rating, string comment) {
     Node* temp = new Node;
     temp->rating = rating;
@@ -26,7 +28,7 @@ void addToTail(Node*& head, double rating, string comment) {
     temp->next = nullptr;
 
     if (head == nullptr) {
-        head = temp;
+        head = temp; // first node in list
     } else {
         Node* current = head;
         while (current->next != nullptr) {
@@ -48,7 +50,7 @@ int main() {
     Node* head = nullptr;
     char again;
 
-    // collect user reviews
+    // have to loop here collect reviews
     do {
         double rating;
         string comment;
@@ -60,6 +62,7 @@ int main() {
         cout << "Enter review comments: ";
         getline(cin, comment);
 
+        // Add review based on the movies ratin
         if (choice == 1)
             addToHead(head, rating, comment);
         else
@@ -68,18 +71,28 @@ int main() {
         cout << "Enter another review? Y/N: ";
         cin >> again;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     } while (again == 'Y' || again == 'y');
 
+    // Traverse and output all reviews, also calculate average
     cout << "\nOutputting all reviews:\n";
     Node* current = head;
-    int count = 1;
+    int count = 0;
+    double total = 0.0;
+
     while (current != nullptr) {
-        cout << "> Review #" << count << ": " << current->rating
-             << ": " << current->comment << endl;
-        current = current->next;
         count++;
+        cout << "    > Review #" << count << ": " << current->rating 
+             << ": " << current->comment << endl;
+        total += current->rating;
+        current = current->next;
     }
 
-    cout << "\nReviews displayed successfully!\n";
+    // Below display's average rating
+    if (count > 0)
+        cout << "    > Average: " << total / count << endl;
+    else
+        cout << "No reviews entered.\n";
+
     return 0;
 }
